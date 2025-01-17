@@ -1,41 +1,57 @@
-<div class="container mt-5">
-    <h1 class="mb-4">Listado de Tareas</h1>
+@extends('layouts.app')
 
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+@section('content')
+    <div class="container">
+
+        <div class="row justify-content-end">
+            <div class="col-md-4">
+                <a href="{{ route('tasks.create') }}" class="mb-3 btn btn-primary">Create New Task</a>
+            </div>
         </div>
-    @endif
 
-    <a href="{{ route('tasks.create') }}" class="mb-3 btn btn-primary">Crear Nueva Tarea</a>
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Título</th>
-                <th>Descripción</th>
-                <th>Estado</th>
-                <th>Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($tasks as $task)
-                <tr>
-                    <td>{{ $task->id }}</td>
-                    <td>{{ $task->title }}</td>
-                    <td>{{ Str::limit($task->description, 50) }}</td>
-                    <td>{{ $task->status ? 'Completada' : 'Pendiente' }}</td>
-                    <td>
-                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
-                            onsubmit="return confirm('¿Estás seguro de eliminar esta tarea?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
+                <table class="table table-hover">
+                    <thead class="table-info">
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($tasks as $task)
+                            <tr>
+                                <td>{{ $task->id }}</td>
+                                <td>{{ $task->title }}</td>
+                                <td>{{ $task->description }}</td>
+                                <td>{{ $task->status ? 'Completed' : 'Pending' }}</td>
+                                <td>
+                                    <div class="mt-1 d-flex justify-content-center">
+                                        <a href="{{ route('tasks.show', $task->id) }}" class="m-2 btn btn-secondary"
+                                            title="View Detail">View</a>
+                                        <a href="{{ route('tasks.edit', $task->id) }}" class="m-2 btn btn-primary"
+                                            title="Edit">Editar</a>
+                                        <form action="{{ route('tasks.destroy', $task->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="m-2 btn btn-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <h3 class="text-danger">There are no tasks</h3>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+@endsection

@@ -23,6 +23,13 @@ class TaskController extends Controller
     }
 
 
+    public function create()
+    {
+        $task = null;
+        return view('tasks.create', compact('task'));
+    }
+
+
     public function store(StoreTaskRequest $request)
     {
         $this->taskService->create($request->validated());
@@ -34,6 +41,13 @@ class TaskController extends Controller
     {
         $task = $this->taskService->getOne($id);
         return view('tasks.show', compact('task'));
+    }
+
+
+    public function edit($id)
+    {
+        $task = $this->taskService->getOne($id);
+        return view('tasks.edit', compact('task'));
     }
 
 
