@@ -18,6 +18,12 @@ return [
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
+
+    'basic_auth' => [
+        'username' => env('BASIC_AUTH_USERNAME', 'testuser'), // Valor por defecto 'testuser'
+        'password' => env('BASIC_AUTH_PASSWORD', 'testpassword'), // Valor por defecto 'testpassword'
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards

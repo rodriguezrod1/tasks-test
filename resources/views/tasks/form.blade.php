@@ -53,7 +53,7 @@
                                 </span>
                             @enderror
                         </div>
-
+                        <a href="{{ route('tasks.index') }}" class="mt-2 btn btn-secondary">Return</a>
                         <button type="submit" class="mt-2 btn btn-primary">{{ $task ? 'Update' : 'Store' }}</button>
                     </form>
                 </div>
